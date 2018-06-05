@@ -95,6 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Styles.css" />
     <Content Include="Global.asax" />
     <Content Include="Pages\Listing.aspx" />
     <Content Include="Web.config" />
@@ -114,12 +115,20 @@
     <Compile Include="Pages\Listing.aspx.designer.cs">
       <DependentUpon>Listing.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Store.Master.cs">
+      <DependentUpon>Store.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Store.Master.designer.cs">
+      <DependentUpon>Store.Master</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Z.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
     <None Include="packages.config" />
+    <Content Include="Pages\Store.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -129,7 +138,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\" />
     <Folder Include="Controllers\" />
     <Folder Include="Controls\" />
     <Folder Include="Pages\Admin\" />
