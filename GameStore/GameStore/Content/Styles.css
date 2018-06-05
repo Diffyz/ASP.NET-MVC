@@ -3,6 +3,8 @@
     margin: 0;
 }
 
+
+
 div#header div.title, div.item h3, div.item h4, div.pager a {
     font: bold 1em "Arial Narrow", "Franklin Gothic Medium", Arial;
 }
@@ -73,3 +75,27 @@ div.pager {
             background-color: #353535;
             color: white;
         }
+
+
+
+div#categories a {
+    font: bold 1.1em "Arial Narrow","Franklin Gothic Medium",Arial;
+    display: block;
+    text-decoration: none;
+    padding: .6em;
+    color: Black;
+    border-bottom: 1px solid silver;
+}
+
+    div#categories a.selected {
+        background-color: #666;
+        color: White;
+    }
+
+    div#categories a:hover {
+        background-color: #CCC;
+    }
+
+    div#categories a.selected:hover {
+        background-color: #666;
+    }

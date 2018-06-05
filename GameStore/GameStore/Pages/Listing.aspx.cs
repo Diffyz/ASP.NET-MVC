@@ -19,7 +19,7 @@ namespace GameStore.Pages
             get
             {
                 int page;
-               page =  int.TryParse(Request.QueryString["page"], out page) ? page : 1;
+                page = GetPageFromRequest();
                 return page > MaxPage ? MaxPage : page;
             }
         }
@@ -28,16 +28,37 @@ namespace GameStore.Pages
         {
             get
             {
-                return Convert.ToInt32(Math.Ceiling((decimal)repository.Games.Count() / 4));
+                int prodCount = FilterGames().Count();
+                return (int)Math.Ceiling((decimal)prodCount / pageSize);
             }
         }
+
+        private int GetPageFromRequest()
+        {
+            int page;
+            string reqValue = (string)RouteData.Values["page"] ??
+                Request.QueryString["page"];
+            return reqValue != null && int.TryParse(reqValue, out page) ? page : 1;
+        }
+
         protected IEnumerable<Game> GetGames()
         {
-            return repository.Games
-                .OrderBy(u=>u.GameId)
-                .Skip((CurrentPage-1)*pageSize)
+            return FilterGames()
+                .OrderBy(g => g.GameId)
+                .Skip((CurrentPage - 1) * pageSize)
                 .Take(pageSize);
         }
+
+        // Новый вспомогательный метод для фильтрации игр по категориям
+        private IEnumerable<Game> FilterGames()
+        {
+            IEnumerable<Game> games = repository.Games;
+            string currentCategory = (string)RouteData.Values["category"] ??
+                Request.QueryString["category"];
+            return currentCategory == null ? games :
+                games.Where(p => p.Category == currentCategory);
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
 

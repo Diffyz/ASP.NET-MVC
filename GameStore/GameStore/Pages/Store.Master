@@ -1,25 +1,26 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Store.master.cs" Inherits="GameStore.Pages.Store" %>
+<%@ Register TagPrefix="GS" TagName="CategoryLinks" Src="~/Controls/CategoryList.ascx" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
+<head id="Head1" runat="server">
     <title>GameStore</title>
     <link rel="stylesheet" href="/Content/Styles.css" />
 </head>
 <body>
     <form id="form1" runat="server">
-    <div>
-        <div id="header">
-            <div class="title">GameStore - магазин компьютерных игр</div>
-        </div>
-        <div id="categories">
-            Мы добавим сюда контент позже
-        </div>
         <div>
-            <asp:ContentPlaceHolder ID="bodyContent" runat="server" />
+            <div id="header">
+                <div class="title">GameStore - магазин компьютерных игр</div>
+            </div>
+            <div id="categories">
+                <GS:CategoryLinks runat="server" />
+            </div>
+            <div>
+                <asp:ContentPlaceHolder ID="bodyContent" runat="server" />
+            </div>
         </div>
-    </div>
     </form>
 </body>
 </html>
