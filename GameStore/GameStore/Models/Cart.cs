@@ -5,13 +5,14 @@ using System.Web;
 
 namespace GameStore.Models
 {
+    public class CartLine
+    {
+        public Game Game { get; set; }
+        public int Quantity { get; set; }
+    }
     public class Cart
     {
-        public class CartLine
-        {
-            public Game Game { get; set; }
-            public int Quantity { get; set; }
-        }
+      
 
         private List<CartLine> lineCollection = new List<CartLine>();
 

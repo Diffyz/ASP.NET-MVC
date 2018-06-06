@@ -78,4 +78,3 @@ D:\GitRep\ASP.NET_MVC\GameStore\GameStore\obj\Debug\GameStore.csproj.CoreCompile
 D:\GitRep\ASP.NET_MVC\GameStore\GameStore\obj\Debug\GameStore.csproj.CopyComplete
 D:\GitRep\ASP.NET_MVC\GameStore\GameStore\obj\Debug\GameStore.dll
 D:\GitRep\ASP.NET_MVC\GameStore\GameStore\obj\Debug\GameStore.pdb
-D:\GitRep\ASP.NET_MVC\GameStore\GameStore\obj\Debug\GameStore.csprojResolveAssemblyReference.cache
