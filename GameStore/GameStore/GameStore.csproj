@@ -113,9 +113,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\Repository\EFDbContext.cs" />
     <Compile Include="Models\Repository\Repository.cs" />
+    <Compile Include="Pages\Helpers\SessionHelper.cs" />
     <Compile Include="Pages\Listing.aspx.cs">
       <DependentUpon>Listing.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -148,7 +150,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Controllers\" />
     <Folder Include="Pages\Admin\" />
-    <Folder Include="Pages\Helpers\" />
     <Folder Include="Scripts\" />
   </ItemGroup>
   <PropertyGroup>

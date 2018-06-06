@@ -78,7 +78,7 @@ div.pager {
 
 
 
-div#categories a {
+div#categories a{
     font: bold 1.1em "Arial Narrow","Franklin Gothic Medium",Arial;
     display: block;
     text-decoration: none;
@@ -99,3 +99,10 @@ div#categories a {
     div#categories a.selected:hover {
         background-color: #666;
     }
+
+div.item button {
+    color: White;
+    background-color: #333;
+    border: 1px solid black;
+    float: right;
+}

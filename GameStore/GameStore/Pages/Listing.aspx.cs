@@ -1,9 +1,11 @@
 ﻿using GameStore.Models;
 using GameStore.Models.Repository;
+using GameStore.Pages.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Routing;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -41,7 +43,7 @@ namespace GameStore.Pages
             return reqValue != null && int.TryParse(reqValue, out page) ? page : 1;
         }
 
-        protected IEnumerable<Game> GetGames()
+        public IEnumerable<Game> GetGames()
         {
             return FilterGames()
                 .OrderBy(g => g.GameId)
@@ -61,7 +63,25 @@ namespace GameStore.Pages
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (IsPostBack)
+            {
+                int selectedGameId;
+                if(int.TryParse(Request.Form["add"],out selectedGameId))
+                {
+                    Game selectedGame = repository.Games
+                        .Where(p=>p.GameId==selectedGameId)
+                        .FirstOrDefault();
+                    if (selectedGame != null)
+                    {
+                        SessionHelper.GetCart(Session).AddItem(selectedGame, 1);
+                        SessionHelper.Set(Session, SessionKey.RETURN_URL, Request.RawUrl);
 
+                        Response.Redirect(RouteTable.Routes
+                            .GetVirtualPath(null, "cart", null)
+                            .VirtualPath);
+                    }
+                }
+            }
         }
     }
 }
