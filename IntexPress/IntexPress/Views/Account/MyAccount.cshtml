@@ -1,0 +1,84 @@
+﻿
+@model IntexPress.Service.User
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/HomeStyle.css" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/Content/NewsStyle.css" />
+
+
+    <script src="~/Scripts/MyAccount.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+    <script src="~/Scripts/Tag.js"></script>
+    <link rel="stylesheet" href="~/Content/DragNdrop.css" />
+    <script src="~/Scripts/ratingJS.js"></script>
+</head>
+<body>
+    <div>
+        <form action="/Account/ChangeUserData" method="post">
+            @if (IntexPress.Controllers.AccountController.wrongEmail == true)
+    {
+        <p>@IntexPress.Resources.HomeTexts.WrongLogin</p>
+}
+            @if (IntexPress.Controllers.AccountController.isSave == true)
+    {
+        <p> Сохранено </p>
+}
+            @if (IntexPress.Controllers.AccountController.largeLenght == true)
+    {
+        <p>@IntexPress.Resources.HomeTexts.LargeLogin</p>
+}
+
+
+            <br />
+
+            <div style="margin-left:7%;float:left">
+                <img id="userPicture" style="width:300px;height:300px;" src=@IntexPress.Service.UserService.user.picture />
+            </div>
+
+
+            <div style="margin-left:40%">
+                <p>@IntexPress.Resources.HomeTexts.Login: @Html.EditorFor(model => model.login, new { htmlAttributes = new { @class = "form-control input-sm", placeholder = IntexPress.Service.UserService.user.login } })</p>
+                <p>@IntexPress.Resources.HomeTexts.Password: @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control input-sm", placeholder = IntexPress.Service.UserService.user.password } })</p>
+                <p>@IntexPress.Resources.HomeTexts.Sex</p>
+                @if (IntexPress.Service.UserService.user.sex == "Male")
+    {
+            <select class="form-control" onchange="NewGender(this.value)">
+                <option selected value=@IntexPress.Resources.HomeTexts.Male>@IntexPress.Resources.HomeTexts.Male</option>
+                <option value=@IntexPress.Resources.HomeTexts.Woman>@IntexPress.Resources.HomeTexts.Woman</option>
+            </select>
+
+}
+else if (IntexPress.Service.UserService.user.sex == "Woman")
+{
+            <select class="form-control" onchange="NewGender(this.value)">
+                <option value=@IntexPress.Resources.HomeTexts.Male>@IntexPress.Resources.HomeTexts.Male</option>
+                <option value=@IntexPress.Resources.HomeTexts.Woman selected>@IntexPress.Resources.HomeTexts.Woman</option>
+            </select>
+}
+else
+{
+            <select class="form-control" onchange="NewGender(this.value)">
+                <option selected disabled>@IntexPress.Resources.HomeTexts.Choose</option>
+                <option value=@IntexPress.Resources.HomeTexts.Male>@IntexPress.Resources.HomeTexts.Male</option>
+                <option value=@IntexPress.Resources.HomeTexts.Woman>@IntexPress.Resources.HomeTexts.Woman</option>
+
+            </select>
+}
+                <p>@IntexPress.Resources.HomeTexts.Phone: @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control input-sm", placeholder = IntexPress.Service.UserService.user.phone } }) </p>
+
+
+                <div class="stories-search-rating__slider">
+                    <span style="display:inline-block">
+                        @IntexPress.Resources.HomeTexts.RationAt :<input id="ratingAt" size="1" value='@IntexPress.Service.UserService.user.ratingAt' onchange="changeRatingAt(this.value,'@IntexPress.Service.UserService.user.ratingAt')" />
+                                        <input style="margin-left:170px" type="submit" class="btn btn-success" value="@IntexPress.Resources.HomeTexts.Save" />
+                                    </span>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</body>
+</html>

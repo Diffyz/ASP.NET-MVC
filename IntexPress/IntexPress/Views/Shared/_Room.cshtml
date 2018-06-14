@@ -1,0 +1,37 @@
+﻿@model IntexPress.Resources.HomeTexts
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/Content/bootstrap.css" />
+    <title> Интекс-пресс</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body style="background-color:#f0f5f5;">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink(IntexPress.Resources.HomeTexts.Home, "StartPage", "Home")</li>
+                    <li>@Html.ActionLink(IntexPress.Resources.HomeTexts.Account, "Index", "Account")</li>
+                    <li>@Html.ActionLink(IntexPress.Resources.HomeTexts.Account_change, "Account_change", "Account")</li>
+                    <li>@Html.ActionLink(IntexPress.Resources.HomeTexts.Account_news, "Account_news", "Account")</li>
+                    <li>@Html.ActionLink(IntexPress.Resources.HomeTexts.Account_change_news, "Account_change_news", "Account")</li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    @RenderBody()
+   
+</body>
+</html>

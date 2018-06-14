@@ -1,0 +1,143 @@
+﻿@model IntexPress.Service.User
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/HomeStyle.css" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/Content/NewsStyle.css" />
+
+    <script src="~/Scripts/UserControl.js"></script>
+    <link rel="stylesheet" href="~/Content/DragNdrop.css" />
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="~/Scripts/Tag.js"></script>
+</head>
+<body>
+    <div id="mdFormatted"></div>
+    @if (IntexPress.Service.UserService.user != null)
+    {
+        if (IntexPress.Service.UserService.user.isBlock == true)
+        {
+            <div class="story__main">
+                <header class="story__header">
+                    <h2 class="story__title">
+                        <a href="~/Home/StartPage"
+                           target="_blank" class="story__title-link story__title-link_visited">@IntexPress.Resources.HomeTexts.isBlock</a>
+                    </h2>
+                </header>
+            </div>
+        }
+        else if (IntexPress.Service.UserService.user.validationEmail == true)
+        {
+            <br />
+            <div class="container">
+                <ul class="nav nav-tabs">
+
+                    <li><a data-toggle="tab" href="#home">@IntexPress.Resources.HomeTexts.Account</a></li>
+                    @if (IntexPress.Service.UserService.user.admit >= 3)
+                    {
+                        <li><a data-toggle="tab" href="#menu1">Мои @IntexPress.Resources.HomeTexts.News</a></li>
+                        <li><a data-toggle="tab" href="#menu2">@IntexPress.Resources.HomeTexts.AddNews</a></li>
+                    }
+                    @if (IntexPress.Service.UserService.user.admit >= 4)
+                    {
+                        <li><a data-toggle="tab" href="#menu3">Админка</a></li>
+                    }
+                </ul>
+
+                <div class="tab-content">
+                    <div id="home" class="tab-pane fade in active">
+                        <br />
+                        @Html.Partial("MyAccount")
+                    </div>
+
+                    <div id="menu1" class="tab-pane">
+                        <br />
+                        @Html.Partial("Account_news")
+                    </div>
+
+                    <div id="menu2" class="tab-pane fade">
+
+                        <br /> 
+                        @Html.Partial("CreateNews")
+                        <div class="col-md-12" style="width: 50%;margin: 2% auto">
+
+                            <p>@IntexPress.Resources.HomeTexts.Picture:</p>
+                            <div id="dropArea">
+                                Место для картинки
+                            </div>
+                            <ul class="list-group" id="uploadList"></ul>
+
+                           
+
+                            @section Scripts{
+                                <script src="~/Scripts/jquery.filedrop.js"></script>
+                                <script type="text/javascript">
+            $(function () {
+                $('#dropArea').filedrop({
+                   url: '@Url.Action("UploadFile")',
+                    allowedfiletypes: ['image/jpeg', 'image/png', 'image/gif'],
+                    allowedfileextensions: ['.jpg', '.jpeg', '.png', '.gif'],
+                    paramname: 'files',
+                    maxfiles: 5,
+                    maxfilesize: 5, // in MB
+                    dragOver: function () {
+                        $('#dropArea').addClass('active-drop');
+                    },
+                    dragLeave: function () {
+                        $('#dropArea').removeClass('active-drop');
+                    },
+                    drop: function () {
+                        $('#dropArea').removeClass('active-drop');
+                    },
+                    afterAll: function (e) {
+                        $('#dropArea').html('file(s) uploaded successfully');
+                    },
+                    uploadFinished: function (i, file, response, time) {
+                        $('#uploadList').append('<li class="list-group-item">' + file.name + '</li>')
+                    }
+                })
+                        })
+
+                                </script>
+
+                            }
+
+                        </div>
+                    </div>
+
+                    <div id="menu3" class="tab-pane fade">
+                        @Html.Action("FullAccounts", "Account")
+                    </div>
+                </div>
+            </div>
+        }
+        else if (IntexPress.Service.UserService.user.validationEmail == false)
+        {
+            <div class="story__main">
+                <header class="story__header">
+                    <h2 class="story__title">
+                        <a href="~/Home/StartPage"
+                           target="_blank" class="story__title-link story__title-link_visited">@IntexPress.Resources.HomeTexts.NoValidEmail</a>
+                    </h2>
+                </header>
+            </div>
+        }
+    }
+
+
+    @*@section Teg{
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="~/Scripts/Tag.js"></script>
+
+    }*@
+</body>
+</html>

@@ -1,0 +1,24 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/Content/NewsStyle.css" />
+    <title>Интекс-пресс</title>
+</head>
+<body style="background:url('../../Content/img/Woods.jpg');width: 800px; margin: 0 auto">
+    <div class="story__main">
+        <header class="story__header">
+            <h2 class="story__title">
+                <a href="~/Home/StartPage"
+                   target="_blank" class="story__title-link story__title-link_visited">@IntexPress.Resources.HomeTexts.ValidEmail</a>
+            </h2>
+        </header>
+    </div>
+</body>
+</html>

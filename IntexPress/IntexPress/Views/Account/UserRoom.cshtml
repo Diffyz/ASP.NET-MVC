@@ -1,0 +1,118 @@
+﻿@model IEnumerable<DBUserCodeFirst.DBUser>
+
+@{
+    /**/
+
+    ViewBag.Title = "Room";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/NewsStyle.css" />
+    <link rel="stylesheet" href="~/Content/rating.css" />
+    <script src="~/Scripts/searchNews.js"></script>
+    <script src="~/Scripts/ratingJS.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+
+</head>
+<body>
+
+
+    <div class="container">
+        <ul class="nav nav-tabs">
+
+            <li><a data-toggle="tab" href="#home">@IntexPress.Resources.HomeTexts.UserRoom</a></li>
+            <li><a data-toggle="tab" href="#menu1">@IntexPress.Resources.HomeTexts.News @ViewBag.author.login 'a</a></li>
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <br />
+            <div style="margin-left:20%;margin-top:1%;float:left">
+                <img id="userPicture" style="width:300px;height:300px;" src=@ViewBag.author.userPicture />
+            </div>
+            <div style="margin-left:45%">
+                <h4>@IntexPress.Resources.HomeTexts.Login: @ViewBag.author.login </h4>
+                @if (@ViewBag.author.sex == null)
+                {
+                    <h4>@IntexPress.Resources.HomeTexts.NoSex</h4>
+
+                }
+                else
+                {
+                    <h4>@IntexPress.Resources.HomeTexts.Sex : @ViewBag.author.sex</h4>
+                }
+                @if (@ViewBag.author.phone == null)
+                {
+                    <h4>@IntexPress.Resources.HomeTexts.NoPhone</h4>
+                }
+                else
+                {
+                    <h4>@IntexPress.Resources.HomeTexts.Phone: @ViewBag.author.phone</h4>
+                }
+            </div>
+        </div>
+        <div id="menu1" class="tab-pane">
+
+            @if (ViewBag.newsUser.Count != 0)
+            {
+
+                foreach (var item in @ViewBag.newsUser)
+                {
+
+                    <article class="story">
+
+                        <div class="col-md-12" style="width: 800px;margin: 2% auto">
+                            <div class="story__main">
+                                <header class="story__header">
+                                    <div class="story__header">
+                                        <h2 class="story__title">
+                                            @item.title
+                                        </h2>
+                                    </div>
+                                </header>
+                                <div class="story__content" style="display:block">
+                                    <div class="story__content-inner">
+                                        <div class="story-block story-block_type_text">
+                                            <h3> @item.categories</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="story__content" style="display:block">
+                                    <div class="story__content-inner">
+                                        <div class="story-block story-block_type_text">
+                                            <p>@(new HtmlString(item.description))</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                @if (item.image != null)
+                                {
+                                    <div class="story__content" style="display:block">
+                                        <div class="story__content-inner">
+                                            <center>
+                                                <img style="width:800px;height:500px" src="@item.image" />
+                                            </center>
+                                        </div>
+                                    </div>
+                                }
+                                @foreach (var teg in @IntexPress.Controllers.HomeController.newsIdTagsPairs[item.newsId])
+                                {
+                                    <form action="/Home/SearchTag" style="display:inline;" method="post">
+                                        <input style="margin-left:15px;margin-bottom:8px" type="submit" name="search" class="btn btn-success" value=@teg>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                    </article>
+
+                }
+            }
+        </div>
+    </div>
+
+</body>
+</html>
+

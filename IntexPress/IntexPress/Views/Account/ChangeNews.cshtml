@@ -1,0 +1,179 @@
+﻿@model IntexPress.Service.New
+@{
+    ViewBag.Title = "ChangeNews";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/HomeStyle.css" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/Content/NewsStyle.css" />
+
+    <script type="text/javascript" src="~/Scripts/ChangeNew.js"></script>
+    <script type="text/javascript" src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
+    <script type="text/javascript">tinymce.init({ selector: 'textarea', height: 300, width: 600 });</script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+    <script src="~/Scripts/Tag.js"></script>
+    <link rel="stylesheet" href="~/Content/DragNdrop.css" />
+</head>
+<body>
+    <script>
+        function checkParameters() {
+            var title = document.getElementById("title").value;
+            var text = document.getElementById("text").value;
+            var description = document.getElementById("description").value;
+            if (title.length == 0 || description.length == 0 || text.length == 0) {
+                alert("Не все поля заполнены верно");
+            }
+        }
+    </script>
+
+
+            <div class="col-md-12" style="width: 800px;margin:2% auto">
+                <div><center>                 
+                        <input id="tagSearch" />
+                        <input type="button" class="btn btn-success" onclick="AddTagSearch()" value="Добавить" />
+                    </center>
+
+                </div>
+            </div>
+            <form action="/Account/ConvertNews" method="post" class="form-horizontal">
+                <div class="col-md-12" style="width: 800px;margin: 2% auto">
+                    <div class="story__main">
+                        
+
+                       
+                        <div id="warning" class="form-group" style="visibility:hidden">
+                            <p>Поля не могут быть пустыми</p>
+                        </div>
+                        <div id="tagListChangeNews">
+                            @foreach (var teg in @IntexPress.Controllers.HomeController.newsIdTagsPairs[IntexPress.Controllers.AccountController.changeNewId])
+    {
+                        <a style="margin-left:15px;margin-bottom:8px" id=@teg class="btn btn-success">@teg <img onclick="DeleteNewsTag('@teg')" style="width:15px; height:15px" src='http://localhost:52310/Content/img/kreuz.png' /></a>
+}
+                        </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">@IntexPress.Resources.HomeTexts.Title</label>
+                                <div class="col-sm-9 " style="padding-bottom:20px">
+                                    <input id="title" name="title" type="text" class="form-control" value='@IntexPress.Controllers.AccountController.title' />
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">@IntexPress.Resources.HomeTexts.Description</label>
+                                <div class="col-sm-9" style="padding-bottom:20px;">
+                                    <textarea cols="30" id="description" name="_description" rows="5" class="form-control"> 
+@ViewBag.description
+</textarea>
+
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="mail" class="col-sm-2 control-label">@IntexPress.Resources.HomeTexts.Category</label>
+                                <div class="col-sm-9" style="padding-bottom:20px">
+                                    @Html.DropDownListFor(model => model.category, new SelectList(IntexPress.Service.CategoryService.categoryList), new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="mail" class="col-sm-2 control-label">@IntexPress.Resources.HomeTexts.Text</label>
+                                <div class="col-sm-9" style="padding-bottom:10px">
+
+                                    <textarea cols="30" id="text" name="_text" rows="5" class="form-control"> 
+@ViewBag.text
+</textarea>
+
+                                </div>
+                            </div>
+
+                        </div>
+                </div>
+                <div id="pushImage" class="col-md-12" style="width: 800px;margin: 2% auto;display:none">
+                    <div class="story__main">
+                        <div class="story__content" style="display:block">
+
+                            <p>@IntexPress.Resources.HomeTexts.Picture:</p>
+                            <div id="dropArea">
+                            </div>
+                            <ul class="list-group" id="uploadList"></ul>
+
+                            @section Scripts{
+                                <script src="~/Scripts/jquery.filedrop.js"></script>
+                                <script type="text/javascript">
+            $(function () {
+                $('#dropArea').filedrop({
+                   url: '@Url.Action("ChangeNewsPicture")',
+                    allowedfiletypes: ['image/jpeg', 'image/png', 'image/gif'],
+                    allowedfileextensions: ['.jpg', '.jpeg', '.png', '.gif'],
+                    paramname: 'files',
+                    maxfiles: 5,
+                    maxfilesize: 5, // in MB
+                    dragOver: function () {
+                        $('#dropArea').addClass('active-drop');
+                    },
+                    dragLeave: function () {
+                        $('#dropArea').removeClass('active-drop');
+                    },
+                    drop: function () {
+                        $('#dropArea').removeClass('active-drop');
+                    },
+                    afterAll: function (e) {
+                        $('#dropArea').html('file(s) uploaded successfully');
+                    },
+                    uploadFinished: function (i, file, response, time) {
+                        $('#uploadList').append('<li class="list-group-item">' + file.name + '</li>')
+                    }
+                })
+                        })
+
+                                </script>
+
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                @if (@ViewBag.image != null)
+                {
+
+                    <div id="image" class="col-md-12" style="width: 800px;margin: 2% auto">
+                        <div class="story__main">
+                            <div class="story__content" style="display:block">
+                                <div class="story__content-inner">
+                                    <center>
+                                        <img style="width:800px;height:500px" src="@ViewBag.image" />
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <script>document.getElementById("pushImage").style.display = "block";</script>
+                    <script>document.getElementById("Save").setAttribute('class', className.replace('col-sm-offset-10', 'col-sm-offset-8'));</script>
+
+                }
+
+
+
+                <div class="col-md-12" style="width: 800px;margin: 2% auto">
+                    <div class="form-group">
+                        <div id="Save" class="col-sm-offset-10 col-sm-8">
+                            @if (@ViewBag.image != null)
+                            {
+                                <button type="button" onclick="DeletePicture(@ViewBag.id)" class="btn btn-success">@IntexPress.Resources.HomeTexts.DeletePicture</button>
+                            }
+                            <button type="submit" onclick="checkParameters()" class="btn btn-success">@IntexPress.Resources.HomeTexts.Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+         
+
+</body>
+</html>

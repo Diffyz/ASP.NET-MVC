@@ -1,0 +1,153 @@
+﻿
+@{
+    ViewBag.Title = "Newspaper";
+    Layout = "~/Views/Shared/_LayoutStyle.cshtml";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/NewspaperStyle.css" />
+    <link rel="stylesheet" href="~/Content/rating.css" />
+
+    <script src="~/Scripts/searchNews.js"></script>
+    <script src="~/Scripts/ratingJS.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+    <script src="~/Scripts/SavePDF.js"></script>
+    <script src="~/Scripts/ChangeNew.js"></script>
+</head>
+<body >
+
+    @{
+        var counter = 0;
+        foreach (var item in ViewBag.search)
+        {
+
+            <article id="@item.newsId fullNews" >
+
+                <div class="col-md-4" style="width: 52%;margin: 2% auto">
+                    <div class="story__main">
+                        <header class="story__header">
+                            @if (IntexPress.Service.UserService.user != null && IntexPress.Service.UserService.user.admit >= 2)
+        {
+                    <div>
+                        <img style="width:40px;height:40px;margin-top:10px;border-radius: 50%;" src='@IntexPress.Controllers.HomeController.newsUserPicture[item.newsId]' />
+                        <a href='@Url.Action("UserRoom", "Account", new { login = item.nameAuthor })' target="_self">@item.nameAuthor</a>
+                        <span>
+                            <img style="width:20px; margin-right: 10px; height:20px; " src="~/Content/img/likeFull.png" />
+                            <span>
+                                @item.countLikeAuthor
+                            </span>
+                        </span>
+
+                    </div>
+}
+                        </header>
+
+                        <h2 class="story__title story__header">
+                            <a href='@Url.Action("ReadNews", "Home", new { @newsId =item.newsId,numberNews = counter})' target="_self" class="story__title-link story__title-link_visited">@item.title</a>
+                        </h2>
+
+
+                        <div class="story__content" style="display:block">
+                            <div class="story__content-inner">
+                                <div class="story-block story-block_type_text">
+                                    <h3> @item.categories</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div class="story__content" style="display:block">
+                            <div class="story__content-inner">
+                                <div class="story-block story-block_type_text">
+                                    <p>@(new HtmlString(item.description))</p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id="content" style="display:none">
+                            @(new MvcHtmlString(item.description))
+                            <p>_______________________________________</p>
+                            @item.text
+                        </div>
+                        @if (item.image != null)
+    {
+                    <div class="story__content" style="display:block">
+                        <div class="story__content-inner">
+                            <center>
+                                <img src="@item.image" />
+                            </center>
+                        </div>
+                    </div>
+}
+                        @foreach (var teg in @IntexPress.Controllers.HomeController.newsIdTagsPairs[item.newsId])
+    {
+                    <form action="/Home/SearchTag" style="display:inline;" method="post">
+                        <input style="margin-left:15px;margin-bottom:8px" type="submit" name="search" class="btn btn-success" value=@teg>
+                    </form>
+}
+                        @if (@IntexPress.Service.UserService.user != null && IntexPress.Service.UserService.user.admit >= 2)
+    {
+
+        var h = IntexPress.Service.UserService.user.newsListRating.Find(x => x.Equals(item.newsId));
+
+        if (h == 0)
+        {
+                    <div>
+                        <form action="/Auth/test" method="post">
+                            <fieldset class="rating">
+                                <input type="radio" id="@counter 5" name="rating" onclick="SetRating(id)" value="5" /><label class="full" for="@counter 5" title="5"></label>
+                                <input type="radio" id="@counter 4" name="rating" onclick="SetRating(id)" value="4" /><label class="full" for="@counter 4" title="4"></label>
+                                <input type="radio" id="@counter 3" name="rating" onclick="SetRating(id)" value="3" /><label class="full" for="@counter 3" title="3"></label>
+                                <input type="radio" id="@counter 2" name="rating" onclick="SetRating(id)" value="2" /><label class="full" for="@counter 2" title="2"></label>
+                                <input type="radio" id="@counter 1" name="rating" onclick="SetRating(id)" value="1" /><label class="full" for="@counter 1" title="1"></label>
+                                <br />
+                                <center>
+                                    <label style="visibility:hidden" id="@counter result">@item.rating</label>
+                                </center>
+                            </fieldset>
+                        </form>
+                    </div>
+
+}
+else
+{
+                    <div>
+                        <fieldset class="rating">
+                            <div style="margin-left:15px;margin-bottom:15px">
+                                <label>Рейтинг @item.rating</label>
+                            </div>
+                        </fieldset>
+                    </div>
+
+}
+if (IntexPress.Service.UserService.user.admit == 4)
+{
+                    <h4 class="itemName" style="text-align:right; margin-right: 10px;">
+                        <a href="javascript:demoFromHTML(1)" class="story__title-link story__title-link_visited" style="cursor:pointer">PDF</a>|
+                        <a id="@item.newsId" class="story__title-link story__title-link_visited" style="cursor:pointer" onclick="deleteNewsIndex(id)">@IntexPress.Resources.HomeTexts.Delete</a>|
+                        <a href='@Url.Action("ChangeNews", "Account", new { id = item.newsId })' target="_self" class="story__title-link story__title-link_visited">@IntexPress.Resources.HomeTexts.Edit</a>
+                    </h4>
+}
+}
+                    </div>
+                </div>
+            </article>
+
+            counter++;
+        }
+    }
+    @section Scripts{
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="~/Scripts/Tag.js"></script>
+
+    }
+
+</body>
+</html>

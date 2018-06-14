@@ -1,0 +1,202 @@
+﻿@model IEnumerable<DBUserCodeFirst.DBUser>
+@{
+    ViewBag.Title = "ReadNews";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/NewsStyle.css" />
+    <link rel="stylesheet" href="~/Content/rating.css" />
+
+    <script src="~/Scripts/CreateCommentsJS.js"></script>
+    <script src="~/Scripts/ratingJS.js"></script>
+</head>
+<body>
+    <input id="GetnewsId" value=@ViewBag.news.newsId style="visibility:hidden" />
+
+    <article class="story">
+        <div class="col-md-12" style="width: 800px;margin: 2% auto">
+            <div class="story__main">
+                <header class="story__header">
+                    @if (IntexPress.Service.UserService.user != null && IntexPress.Service.UserService.user.admit >= 2)
+                    {
+                <div>
+                    <a href='@Url.Action("UserRoom", "Account", new { login = ViewBag.news.nameAuthor })' target="_self">@ViewBag.news.nameAuthor</a>
+                    <span>
+                        <img style="width:20px; margin-right: 10px; height:20px; " src="~/Content/img/likeFull.png" />
+                        <span id=@ViewBag.news.nameAuthor>
+                            @ViewBag.countLike
+                        </span>
+                    </span>
+                </div>
+                    }
+                <h2 class="story__title">
+                    <a>@ViewBag.news.title</a>
+                </h2>
+                </header>
+                <div class="story__content" style="display:block">
+                    <div class="story__content-inner">
+                        <div class="story-block story-block_type_text">
+                            <h3> @ViewBag.news.categories</h3>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="story__content" style="display:block">
+                    <div class="story__content-inner">
+                        <div class="story-block story-block_type_text">
+                            @(new HtmlString(ViewBag.news.description))
+                        </div>
+                    </div>
+                </div>
+
+                @if (ViewBag.news.image != null)
+                {
+                    <div class="story__content" style="display:block">
+                        <div class="story__content-inner">
+                            <center>
+                                <img style="width:800px;height:500px" src="@ViewBag.news.image" />
+                            </center>
+                        </div>
+                    </div>
+                }
+                <div class="story__content" style="display:block">
+                    <div class="story__content-inner">
+                        <div class="story-block story-block_type_text">
+                            @(new HtmlString(ViewBag.news.text))
+                        </div>
+                    </div>
+                </div>
+                <div id="createNewComment"></div>
+                @if (@IntexPress.Service.UserService.user != null && IntexPress.Service.UserService.user.admit >= 2)
+                {
+                    <input id="GetuserId" value=@IntexPress.Service.UserService.user.userId style="visibility:hidden" />
+
+                    var h = IntexPress.Service.UserService.user.newsListRating.Find(x => x.Equals(ViewBag.news.newsId));
+
+                    if (h == 0)
+                    {
+                        <div>
+                            <form action="/Auth/test" method="post">
+                                <fieldset class="rating">
+                                    <input type="radio" id="@ViewBag.numberNews 5" name="rating" onclick="SetRating(id)" value="5" /><label class="full" for="@ViewBag.numberNews 5" title="5"></label>
+                                    <input type="radio" id="@ViewBag.numberNews 4" name="rating" onclick="SetRating(id)" value="4" /><label class="full" for="@ViewBag.numberNews 4" title="4"></label>
+                                    <input type="radio" id="@ViewBag.numberNews 3" name="rating" onclick="SetRating(id)" value="3" /><label class="full" for="@ViewBag.numberNews 3" title="3"></label>
+                                    <input type="radio" id="@ViewBag.numberNews 2" name="rating" onclick="SetRating(id)" value="2" /><label class="full" for="@ViewBag.numberNews 2" title="2"></label>
+                                    <input type="radio" id="@ViewBag.numberNews 1" name="rating" onclick="SetRating(id)" value="1" /><label class="full" for="@ViewBag.numberNews 1" title="1"></label>
+                                    <br />
+                                    <center>
+                                        <label style="visibility:hidden" id="@ViewBag.numberNews result">@ViewBag.news.rating</label>
+                                    </center>
+                                </fieldset>
+                            </form>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div>
+                            <fieldset class="rating">
+                                <div style="margin-left:15px;margin-bottom:15px">
+                                    <label>Рейтинг @ViewBag.news.rating</label>
+                                </div>
+                            </fieldset>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+    </article>
+
+    @if (@IntexPress.Service.UserService.user != null && IntexPress.Service.UserService.user.isBlock==false && @IntexPress.Service.UserService.user.validationEmail==true)
+    {
+
+        <div class="col-md-12" style="width: 800px;margin: 2% auto">
+            <div style="margin:20px 0 20px 0; height: 150px; ">
+                <div>
+                    <form class="form-horizontal">
+                        <div class="form-group " style="margin:0 auto 20px auto !important; max-width:500px; height:auto">
+                            <h5 class="col-sm-2 control-label">@IntexPress.Resources.HomeTexts.Comment</h5>
+                            <div class="col-sm-8">
+                                <textarea style="float:left" cols="10" id="comment" rows="3" class="form-control" placeholder="Введите ваш коментарий"></textarea>
+                                <div class="col-sm-offset-6 col-sm-10" style="margin-top: 10px">
+                                    <button type="button" onclick="CreateCommentFunc(@IntexPress.Service.UserService.user.userId ,@ViewBag.news.newsId)" class="btn btn-success">@IntexPress.Resources.HomeTexts.Send</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    }
+
+        <div id="CommentContaner">
+            @if (@ViewBag.comment != null)
+    {
+        var i = 0;
+        foreach (var item in @ViewBag.comment)
+        {
+            <div class="thumbnail" style="margin:0 auto 20px auto !important; max-width:500px; height:auto">
+                <div>
+                    <span>
+                        <a href='@Url.Action("UserRoom", "Account",  new { login = item.userLogin })' target="_self">@item.userLogin</a>
+                        <img style="width:20px; margin-right: 10px; height:20px; " src='http://localhost:52310/Content/img/likeFull.png' />
+                        <span id=@item.userLogin>
+                            @ViewBag.usersCountLike[i]
+                            
+                        </span>
+                    </span>
+                </div>
+                <p class="someClass" style="float: left; word-wrap: break-word; width:400px;margin-left:15px">@item.text</p>
+                <br />
+                <div class="caption">
+                    <div>
+                        @if (IntexPress.Service.UserService.user != null && IntexPress.Service.UserService.user.admit >= 2)
+                        {
+                    if (item.isLikeComment == false)
+                    {
+
+                    <div style="text-align:right; margin-right: 10px;">
+                        <span><a style="margin-right:350px" onclick="Answer('@item.userLogin')" href="#createNewComment">Ответить</a></span>
+                        <img id="@item.commentId" onclick="Like(id,'@item.userLogin')" style="width:20px; margin-right: 10px; height:20px; cursor:pointer" src="~/Content/img/like_empty.png" />
+                        <span id="@item.commentId 1"> @item.countLike</span>
+                    </div>
+                    }
+                    else
+                    {
+                    <div style="text-align:right; margin-right: 10px;">
+                        <span><a style="margin-right:350px" onclick="Answer('@item.userLogin')" href="#createNewComment">Ответить</a></span>
+                        <img id="@item.commentId" onclick="Like(id,'@item.userLogin')" class="Like" style="width:20px; margin-right: 10px; height:20px; cursor:pointer" src="~/Content/img/likeFull.png" />
+                        <span id="@item.commentId 1"> @item.countLike</span>
+                    </div>
+                    }
+                        }
+
+                    </div>
+                    </div>
+            </div>
+    ++i;
+}
+}
+            <div>
+                @if (IntexPress.Service.UserService.user != null && IntexPress.Service.UserService.user.admit >= 2)
+                {
+                <center>
+                    <a class="btn btn-success" href="#createNewComment">@IntexPress.Resources.HomeTexts.WriteComment</a>
+                </center>
+                }
+            </div>
+        </div>
+   
+
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2015
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntexPress", "IntexPress\IntexPress.csproj", "{0AEFD386-0175-4EC4-BC96-33A0588F9F3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBUserCodeFirst", "DBUserCodeFirst\DBUserCodeFirst.csproj", "{7065A43E-7E1B-4980-85AF-AE20F316B1C8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0AEFD386-0175-4EC4-BC96-33A0588F9F3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AEFD386-0175-4EC4-BC96-33A0588F9F3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AEFD386-0175-4EC4-BC96-33A0588F9F3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AEFD386-0175-4EC4-BC96-33A0588F9F3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7065A43E-7E1B-4980-85AF-AE20F316B1C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7065A43E-7E1B-4980-85AF-AE20F316B1C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7065A43E-7E1B-4980-85AF-AE20F316B1C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7065A43E-7E1B-4980-85AF-AE20F316B1C8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0B3CAF54-37FF-4D77-8968-072DECD567BA}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+
+    <script src="~/Scripts/searchNews.js"></script>
+
+    <link rel="stylesheet" href="~/Content/SearchStyle.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Интекс-пресс</title>
+    <link rel="stylesheet" href="~/Content/Site.css" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body style="background-color:#f0f5f5;">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".myBackColor">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+                <div>
+                    <ul class="nav navbar-nav">
+                        <li><a href="~/Home/StartPage"><img style="width:150px;height:40px;margin-top:-10px;" src="~/Content/img/3.png" /></a></li>
+                        <li><a style="font-style:oblique;font-weight:600" href="~/Home/StartPage">@IntexPress.Resources.HomeTexts.Home</a></li>
+                        <li><a style="font-style:oblique;font-weight:600" href="~/Home/Top">@IntexPress.Resources.HomeTexts.Top</a></li>
+                        <li><a style="font-style:oblique;font-weight:600" href="~/Language/Index">@IntexPress.Resources.HomeTexts.Setting</a></li>
+
+                    </ul>
+                </div>
+                @if (IntexPress.Service.UserService.user != null)
+                {
+                    <div class="navbar-collapse collapse" style="margin-right:5%">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li style="margin-top:1%">
+                                <div id="aaa">
+                                    <form action="/Home/Search" style="display:inline;" method="post">
+                                        <input class="namanyay-search-box" name="search" size="40" type="text" placeholder="@IntexPress.Resources.HomeTexts.Search ..." />
+                                        <input class="namanyay-search-btn" onclick="changeSearchNews()" value="@IntexPress.Resources.HomeTexts.Find" type="submit" />
+                                    </form>
+                                </div>
+                            </li>
+
+                            <li><img style="width:40px;height:40px;margin-top:10px;border-radius: 50%;" src='@IntexPress.Service.UserService.user.picture' /></li>
+                            @if (@IntexPress.Service.UserService.user.login.Length <= 6)
+                            {
+                                <li><a style="font-style:oblique;font-weight:600" href="~/Account/Index">@IntexPress.Service.UserService.user.login</a></li>
+                            }
+                            else
+                            {
+                                <li><a style="font-style:oblique;font-weight:600" href="~/Account/Index">@IntexPress.Service.UserService.GetShortLogin()...</a></li>
+                            }
+                            <li><a style="font-style:oblique;font-weight:600" href="~/Home/Restart">@IntexPress.Resources.HomeTexts.Exit</a></li>
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <div class="navbar-collapse collapse" style="margin-right:5%">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li style="margin-top:1%">
+                                <div id="aaa">
+                                    <form action="/Home/Search" style="display:inline;" method="post">
+
+                                        <input class="namanyay-search-box" name="search" size="40" type="text" placeholder="@IntexPress.Resources.HomeTexts.Search ..." />
+                                        <input class="namanyay-search-btn" onclick="changeSearchNews()" value="@IntexPress.Resources.HomeTexts.Find" type="submit" />
+                                    </form>
+                                </div>
+                            </li>
+                            <li> <a style="font-style:oblique;font-weight:600" href="~/Auth/Index">@IntexPress.Resources.HomeTexts.Auth</a>  </li>
+                            <li><a style="font-style:oblique;font-weight:600" href="~/Auth/Entry">@IntexPress.Resources.HomeTexts.Entry</a></li>
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+
+    @RenderBody()
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("Scripts", required: false)
+    @RenderSection("S", required: false)
+    @RenderSection("Teg", required: false)
+    @RenderSection("ScriptsTag", required: false)
+</body>
+</html>

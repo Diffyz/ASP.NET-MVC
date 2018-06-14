@@ -1,0 +1,89 @@
+﻿@model IntexPress.Service.New
+@{
+    ViewBag.Title = "Account_news";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/HomeStyle.css" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/Content/NewsStyle.css" />
+    <script type="text/javascript" src="~/Scripts/ChangeNew.js"></script>
+</head>
+<body>
+    @if (IntexPress.Controllers.AccountController.myNews.Count != 0)
+    {
+        foreach (var item in IntexPress.Controllers.AccountController.myNews)
+        {
+            <article id="@item.newsId news" class="story">
+                <div class="col-md-12" style="width: 800px;margin: 2% auto">
+                    <div class="story__main">
+                        <header class="story__header">
+                            <h2 class="story__title">
+                                <p>@item.title</p>
+                            </h2>
+                        </header>
+
+                        <div class="story__content" style="display:block">
+                            <div class="story__content-inner">
+                                <div class="story-block story-block_type_text">
+                                    <p>@IntexPress.Resources.HomeTexts.Category :  @item.categories</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="story__content" style="display:block">
+                            <div class="story__content-inner">
+                                <div class="story-block story-block_type_text">
+                                    @(new HtmlString(item.description))
+                                </div>
+                            </div>
+                        </div>
+                        <div class="story__content" style="display:block">
+                            <div class="story__content-inner">
+                                <div class="story-block story-block_type_text">
+                                    @(new HtmlString(item.text))
+                                </div>
+                            </div>
+                        </div>
+                        @if (item.image != null)
+    {
+                    <div class="story__content" style="display:block">
+                        <div class="story__content-inner">
+                            <center>
+                                <img style="width:800px;height:500px" src="@item.image" />
+                            </center>
+                        </div>
+                    </div>
+                    <br />
+}
+                        @foreach (var teg in @IntexPress.Controllers.HomeController.newsIdTagsPairs[item.newsId])
+    {
+                  
+                        <input style="margin-left:15px;margin-bottom:8px" type="submit" name="search" class="btn btn-success" value=@teg>
+                   
+}
+                        <h4 class="itemName" style="text-align:right; margin-right: 10px;">
+                            <a id="@item.newsId delete" class="story__title-link story__title-link_visited" style="cursor:pointer" onclick="deleteNews(id)">@IntexPress.Resources.HomeTexts.Delete</a> |
+                            <a href='@Url.Action("ChangeNews", "Account", new {id=item.newsId})' target="_self" class="story__title-link story__title-link_visited">@IntexPress.Resources.HomeTexts.Edit</a>
+                        </h4>
+                    </div>
+
+                </div>
+
+            </article>
+        }
+    }
+    else
+    {
+        <h1>У вас нету новостей</h1>
+    }
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+
+<div style="margin-left:45%">
+
+    <h3>@IntexPress.Resources.HomeTexts.ChangeLanguage</h3>
+
+    <a>@Html.ActionLink("Русский", "Change", "Language", new { @class = "btn btn-success", LanguageAbbrevation = "en" }, new { @class = "btn btn-success" })</a>
+    <a>@Html.ActionLink("Беларуский", "Change", "Language", new { LanguageAbbrevation = "fr" }, new { @class = "btn btn-success" })</a>
+    <br />
+    <a>@DateTime.Now.ToString()</a>
+
+
+</div>

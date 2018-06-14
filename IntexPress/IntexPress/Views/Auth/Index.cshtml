@@ -1,0 +1,74 @@
+﻿@model IntexPress.Service.User
+
+@{ 
+    Layout = "~/Views/Shared/_LayoutStyle.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/HomeStyle.css" />
+</head>
+<body style="background:url('../../Content/img/Space.jpg')">
+
+    @if (IntexPress.Controllers.AuthController.currentViewEntry==true)
+    {
+        <form action="/Auth/InfoUserEntry" method="post">
+            <div class="passport-Domik" style="align-content:center;margin:auto;margin-top:200px;outline:none">
+                <div>
+                    @if (IntexPress.Controllers.AuthController.wrongLogin == true)
+        {
+            <p>@IntexPress.Resources.HomeTexts.WrongLogin</p>
+}
+                    <p> @IntexPress.Resources.HomeTexts.Login: @Html.TextBoxFor(y => y.login) </p>
+                    <p> @IntexPress.Resources.HomeTexts.Password: @Html.PasswordFor(y => y.password) </p>
+                    <input type="submit" class="btn btn-success" value="@IntexPress.Resources.HomeTexts.Entry" />
+                    <div>
+                        <hr align="center" width="180" size="3" color="black" />
+                        <a href='@Url.Action("Vk", "Auth")'><img src="~/Content/img/vk.png" /></a>
+                        <a href='@Url.Action("Twitter", "Auth")'><img src="~/Content/img/Twitter .png" /></a>
+                        <a href='@Url.Action("Facebook", "Auth")'><img src="~/Content/img/Facebook .png" /></a>
+                    </div>
+
+              
+                <h6> <a href="~/Home/StartPage/" style="text-decoration: none; color: #ccc">Вернуться на сервис</a></h6>
+            </div>
+            </div>
+        </form>
+    }
+    else
+    {
+
+        <form action="/Auth/Index" method="post">
+            <div class="passport-Domik" style="align-content:center;margin:auto;margin-top:7%;outline:none">
+                <div>
+                    @if (ViewBag.isUserHave == true)
+        {
+            <p>@IntexPress.Resources.HomeTexts.Account_exists</p>
+
+}
+
+                    @Html.ValidationSummary()
+                    <p>@IntexPress.Resources.HomeTexts.Login: @Html.TextBoxFor(y => y.login)</p>
+                    <p>@IntexPress.Resources.HomeTexts.Email: @Html.TextBoxFor(y => y.email)</p>
+                    <p>@IntexPress.Resources.HomeTexts.Password: @Html.PasswordFor(y => y.password)</p>
+
+                    <input type="submit" class="btn btn-success" value="@IntexPress.Resources.HomeTexts.Auth" />
+
+                    <div>
+                        <hr align="center" width="180" size="3" color="black" />
+                        <a href='@Url.Action("Vk", "Auth")'><img src="~/Content/img/vk.png" /></a>
+                        <a href='@Url.Action("Twitter", "Auth")'><img src="~/Content/img/Twitter .png" /></a>
+                        <a href='@Url.Action("Facebook", "Auth")'><img src="~/Content/img/Facebook .png" /></a>
+                    </div>
+
+                </div>
+                <h6> <a href="~/Home/StartPage/" style="text-decoration: none; color: #ccc">Вернуться на сервис</a></h6>
+                
+            </div>
+
+        </form>
+    }
+
+
+</body>
+</html>

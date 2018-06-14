@@ -1,0 +1,150 @@
+﻿@model IEnumerable<DBUserCodeFirst.DBUser>
+
+<br /><br />
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="~/Scripts/UserControl.js"></script>
+    <link rel="stylesheet" href="~/Content/DbGrid.css" />
+
+</head>
+<body>
+    @{
+        var isBlock="";
+        <div id="user">
+
+            <table class="table">
+                <tr>
+                    <th>
+                        <p>Фото</p>
+                    </th>
+                    <th>
+                        @IntexPress.Resources.HomeTexts.Login
+                    </th>
+                    <th>
+                        @IntexPress.Resources.HomeTexts.Email
+                    </th>
+                   
+                    <th>
+                        @IntexPress.Resources.HomeTexts.admit
+                    </th>
+                    <th>
+                        @IntexPress.Resources.HomeTexts.AdmitEmail
+                    </th>
+                    <th>
+                        @IntexPress.Resources.HomeTexts.Rating
+                    </th>
+                    <th>
+                        @IntexPress.Resources.HomeTexts.isUnlock
+                    </th>
+                    <th></th>
+                </tr>
+                
+                @foreach (var item in @ViewBag.users)
+                {
+                   
+                    <tr id="@item.userId user">
+                        <td>
+                            <img style="width:40px;height:40px;border-radius: 50%;" src=@item.userPicture />
+                        </td>
+                        <td>
+                            @item.login
+                        </td>
+                        <td>
+                            @item.email
+                        </td>
+                       
+                        <td id="@item.userId admit">
+                            @if (item.isBlock == false)
+                            {
+                                if (item.admit == 1)
+                                {
+                                    <div id="1" class="col-sm-12" style="margin-left:-15px">
+                                        <select class="form-control"  id="@item.userId" onchange="changeAdmit(this.id)">
+                                            <option value="1" selected>@IntexPress.Resources.HomeTexts.User</option>
+                                            <option value="2">@IntexPress.Resources.HomeTexts.Reader</option>
+                                            <option value="3">@IntexPress.Resources.HomeTexts.Writer</option>
+                                            <option value="4">@IntexPress.Resources.HomeTexts.admin</option>
+                                        </select>
+                                    </div>
+                                }
+                                if (item.admit == 2)
+                                {
+                                    <div class="col-sm-12" style="margin-left:-15px">
+                                        <select class="form-control"  id="@item.userId" onchange="changeAdmit(this.id)">
+                                            <option value="1">@IntexPress.Resources.HomeTexts.User</option>
+                                            <option value="2" selected>@IntexPress.Resources.HomeTexts.Reader</option>
+                                            <option value="3">@IntexPress.Resources.HomeTexts.Writer</option>
+                                            <option value="4">@IntexPress.Resources.HomeTexts.admin</option>
+                                        </select>
+                                    </div>
+                                }
+                                if (item.admit == 3)
+                                {
+                                    <div class="col-sm-12" style="margin-left:-15px">
+                                        <select class="form-control"  id="@item.userId" onchange="changeAdmit(this.id)">
+                                            <option value="1">@IntexPress.Resources.HomeTexts.User</option>
+                                            <option value="2">@IntexPress.Resources.HomeTexts.Reader</option>
+                                            <option value="3" selected>@IntexPress.Resources.HomeTexts.Writer</option>
+                                            <option value="4">@IntexPress.Resources.HomeTexts.admin</option>
+                                        </select>
+                                    </div>
+                                }
+                                if (item.admit == 4)
+                                {
+                                    <div id="1" class="col-sm-12" style="margin-left:-15px;">
+                                        <select class="form-control" id="@item.userId" onchange="changeAdmit(this.id)">
+                                            <option value="1">@IntexPress.Resources.HomeTexts.User</option>
+                                            <option value="2">@IntexPress.Resources.HomeTexts.Reader</option>
+                                            <option value="3">@IntexPress.Resources.HomeTexts.Writer</option>
+                                            <option value="4" selected>@IntexPress.Resources.HomeTexts.admin</option>
+                                        </select>
+                                    </div>
+                                }
+                            }
+                           else
+                            {
+                                <div id="@item.userId select" class="col-sm-12" style="margin-left:-15px;visibility:hidden">
+                                    <select class="form-control" id="@item.userId" onchange="changeAdmit(this.id)">
+                                        <option value="1" selected>@IntexPress.Resources.HomeTexts.User</option>
+                                        <option value="2">@IntexPress.Resources.HomeTexts.Reader</option>
+                                        <option value="3">@IntexPress.Resources.HomeTexts.Writer</option>
+                                        <option value="4">@IntexPress.Resources.HomeTexts.admin</option>
+                                    </select>
+                                </div>
+                            }
+                        </td>
+                        <td>
+                            @item.validationEmail
+                        </td>
+                        <td>
+                            @item.countLike
+                        </td>
+                        <td>
+                            @item.isBlock
+                        </td>
+                        <td>
+                            <input type="button" id=@item.userId class="btn btn-success" onclick="DeleteUser(this.id)" style="pointer-events:visibleFill" value=@IntexPress.Resources.HomeTexts.Delete />
+
+                            @if (item.isBlock == false)
+                            {
+                                isBlock = @IntexPress.Resources.HomeTexts.Lock;
+
+                            }
+                            else
+                            {
+                                isBlock = IntexPress.Resources.HomeTexts.Unlock;
+
+                            }
+                            <input type="button" id="@item.userId button" class="btn btn-success" onclick="BlockUser(this.id)" style="pointer-events:visibleFill" value=@isBlock />
+
+                        </td>
+                    </tr>
+                }
+
+
+            </table>
+        </div>
+    }
+</body>
+</html>

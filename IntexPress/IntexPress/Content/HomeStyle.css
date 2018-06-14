@@ -1,0 +1,43 @@
+﻿.passport-Input, .passport-Input-Controller {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    max-width: 100%;
+    cursor: text;
+    vertical-align: baseline;
+}
+
+.passport-Domik {
+    width: 260px;
+    max-width: 100%;
+    padding: 20px 46px;
+    color: #000;
+    background: #fff;
+    box-shadow: 0 20px 40px rgba(0,0,0,.4);
+    text-align: center;
+}
+.passport-Input {
+    font-family: Arial,sans-serif;
+    width: 400px;
+    font-size: 15px;
+    line-height: 20px;
+    min-height: 30px;
+    height: 45px;
+    padding: 0;
+}
+
+.passport-Input, .passport-Input-Controller {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    max-width: 100%;
+    cursor: text;
+    vertical-align: baseline;
+}
+
+.passport-Domik-Retpath {
+    background: rgba(0,0,0,.3);
+    position: relative;
+    height: 39px;
+    line-height: 39px;
+}
